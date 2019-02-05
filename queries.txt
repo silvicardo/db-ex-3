@@ -1,0 +1,80 @@
+Seleziona tutti gli ospiti che sono stati identificati con la carta di identità
+SELECT * FROM ospiti WHERE document_type = 'CI'
+
+Seleziona tutti gli ospiti che sono nati dopo il 1988
+SELECT * FROM ospiti WHERE YEAR(date_of_birth) > '1988'
+
+
+Seleziona tutti gli ospiti che hanno più di 20 anni (al momento dell’esecuzione della query)
+SELECT name, lastname, YEAR(CURDATE()) - YEAR(date_of_birth) AS 'Età' FROM ospiti WHERE YEAR(CURDATE()) - YEAR(date_of_birth) > 20
+
+Seleziona tutti gli ospiti il cui nome inizia con la D
+SELECT * FROM ospiti WHERE name LIKE 'd%';
+
+
+Calcola il totale degli ordini accepted
+SELECT SUM(price) AS 'somma pagamenti accettati' FROM pagamenti WHERE pagamenti.status = 'accepted'
+
+Qual è il prezzo massimo pagato?
+SELECT MAX(price) AS 'pagamento massimo accettato' FROM pagamenti WHERE pagamenti.status = 'accepted'
+
+Seleziona gli ospiti riconosciuti con patente e nati nel 1975
+SELECT * FROM ospiti WHERE document_type = 'Driver License' AND YEAR(date_of_birth) = '1975'
+
+
+Quanti paganti sono anche ospiti?
+SELECT COUNT(*) AS 'ospiti paganti' FROM paganti WHERE ospite_id IS NOT NULL
+
+Quanti posti letto ha l’hotel in totale?
+SELECT SUM(beds) AS 'LETTI TOTALI' FROM stanze
+
+Le stanze sono state tutte prenotate almeno una volta?
+Non ho capito come ottenere un vero falso, posso mostrare le visite per stanza....
+SELECT stanza_id AS 'Nr Stanza', COUNT(stanza_id) AS 'Nr Prenotazioni per Stanza' FROM prenotazioni GROUP BY stanza_id ORDER BY stanza_id ASC
+
+
+Group by
+
+
+Conta gli ospiti raggruppandoli per anno di nascita
+SELECT YEAR(date_of_birth) AS 'Anno nascita', COUNT(id) AS 'Numero Ospiti' FROM ospiti GROUP BY YEAR(ospiti.date_of_birth)
+
+Somma i prezzi dei pagamenti raggruppandoli per status
+SELECT pagamenti.status AS 'STATUS', SUM(price) as 'Totale pagamenti' FROM pagamenti GROUP BY pagamenti.status
+
+Conta quante volte è stata prenotata ogni stanza
+SELECT stanza_id AS 'Numero Stanza' ,COUNT(stanza_id) AS 'numero Prenotazioni' FROM prenotazioni GROUP BY stanza_id
+
+Fai una analisi per vedere se ci sono ore in cui le prenotazioni sono più frequenti
+SELECT HOUR(created_at) AS 'ORA CREAZIONE', COUNT(HOUR(created_at)) AS 'PRENOTAZIONI PER ORA' FROM prenotazioni GROUP BY HOUR(created_at) ORDER BY COUNT(HOUR(created_at)) DESC
+
+Quante prenotazioni ha fatto l’ospite che ha fatto più prenotazioni?
+
+SELECT COUNT(ospite_id) AS 'nr massimo prenotazioni per ospite'
+FROM prenotazioni_has_ospiti
+GROUP BY ospite_id
+ORDER BY COUNT(ospite_id) DESC
+LIMIT 1
+
+
+
+Join
+
+
+Come si chiamano gli ospiti che hanno fatto più di due prenotazioni?
+
+
+Stampare tutti gli ospiti per ogni prenotazione
+
+
+Stampare Nome, Cognome, Prezzo e Pagante per tutte le prenotazioni fatte a Maggio 2018
+
+
+Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano
+
+
+Prendi i dati di fatturazione per la prenotazione con id=7
+
+
+
+
