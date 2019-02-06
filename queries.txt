@@ -28,10 +28,6 @@ SELECT COUNT(*) AS 'ospiti paganti' FROM paganti WHERE ospite_id IS NOT NULL
 Quanti posti letto ha l’hotel in totale?
 SELECT SUM(beds) AS 'LETTI TOTALI' FROM stanze
 
-Le stanze sono state tutte prenotate almeno una volta?
-Non ho capito come ottenere un vero falso, posso mostrare le visite per stanza....
-SELECT stanza_id AS 'Nr Stanza', COUNT(stanza_id) AS 'Nr Prenotazioni per Stanza' FROM prenotazioni GROUP BY stanza_id ORDER BY stanza_id ASC
-
 
 Group by
 
@@ -115,3 +111,11 @@ ON prenotazioni_has_ospiti.ospite_id = ospiti.id
 WHERE prenotazioni_has_ospiti.id = 7
 
 Le stanze sono state tutte prenotate almeno una volta?
+(Visualizzare le stanze non ancora prenotate)
+
+SELECT stanze.id AS 'Nr Stanza', COUNT(prenotazioni.stanza_id) AS 'Nr Prenotazioni per Stanza'
+FROM prenotazioni
+INNER JOIN stanze
+ON prenotazioni.stanza_id = stanze.id
+GROUP BY stanza_id
+HAVING COUNT(prenotazioni.stanza_id) < 1
